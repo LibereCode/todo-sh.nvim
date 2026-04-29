@@ -46,8 +46,8 @@ end
 --     local todoshFileExec = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), "%:h") --
 --         .. "../assets/todo_sh/todo.sh_loop.bash"
 --
---     local todoshDir = vim.fn.stdpath("state") .. "/todo-sh"
---     vim.uv.fs_mkdir(todoshDir, tonumber("755", 8)) -- specify and create state-dir
+--      local todoshLocalDir = vim.fn.stdpath("state") .. "/todo-sh"
+--      vim.uv.fs_mkdir(todoshLocalDir, tonumber("755", 8)) -- specify and create state-dir
 --
 --     local todoshConfStr = require("todo-sh-config")
 --     local todoshConfPath = todoshDir .. "/todo.cfg"
@@ -59,13 +59,12 @@ end
 --     todoshConfWrite:close()
 -- end
 
-local todoshAssets = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), "%:h") --
-    .. "../assets/todo_sh/"
+local todoshAssets = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h") --
+    .. "/../assets/todo_sh/"
 local todoshFileExec = todoshAssets .. "todo.sh_loop.bash"
 local todoshFileConf = todoshAssets .. "todo.cfg"
-
-local todoshLocalDir = vim.fn.stdpath("state") .. "/todo-sh"
-vim.uv.fs_mkdir(todoshLocalDir, tonumber("755", 8)) -- specify and create state-dir
+-- local todoshLocalDir = vim.fn.stdpath("state") .. "/todo-sh"
+-- vim.uv.fs_mkdir(todoshLocalDir, tonumber("755", 8)) -- specify and create state-dir
 
 ---Open the buffer with a `todo.sh` while loop.
 function M.toggle_todo()
