@@ -39,6 +39,30 @@ function M.toggle_float(opts)
     return { buf = buf, win = win }
 end
 
+M.todoshLuaDir = vim.fn.fnamemodify(debug.getinfo(1, "S").source:gsub("^@", ""), ":h")
+M.todoshAssets = M.todoshLuaDir .. "/../assets/todo_sh/"
+M.todoshFileExec = M.todoshAssets .. "todo.sh_loop.bash"
+M.todoshFileConf = M.todoshAssets .. "todo.cfg"
+M.bashCommand = M.todoshFileExec .. " " .. M.todoshFileConf
+
+---Open the buffer with a `todo.sh` while loop.
+function M.toggle_todo()
+    if vim.api.nvim_win_is_valid(M.state.floating.win) then -- if visible
+        vim.api.nvim_win_hide(M.state.floating.win) -- hide
+    else
+        M.state.floating = M.toggle_float({
+            x = 0.8,
+            y = 0.8,
+            buf = M.state.floating.buf,
+        }) -- tells it to use the same buffer
+        if vim.bo[M.state.floating.buf].buftype ~= "terminal" then -- if buftype isn't terminal
+            vim.cmd.terminal('bash -c "' .. M.bashCommand .. '"')
+            -- vim.cmd.terminal('bash -c "' .. "~/test.bash " .. M.bashCommand .. '"')
+        end
+    end
+    vim.cmd("startinsert")
+end
+
 -- TODO:
 ---Create dir at specified todo.sh dir, write and load config, and action
 ---
@@ -59,29 +83,8 @@ end
 --     todoshConfWrite:close()
 -- end
 
-local todoshAssets = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h") --
-    .. "/../assets/todo_sh/"
-local todoshFileExec = todoshAssets .. "todo.sh_loop.bash"
-local todoshFileConf = todoshAssets .. "todo.cfg"
 -- local todoshLocalDir = vim.fn.stdpath("state") .. "/todo-sh"
 -- vim.uv.fs_mkdir(todoshLocalDir, tonumber("755", 8)) -- specify and create state-dir
-
----Open the buffer with a `todo.sh` while loop.
-function M.toggle_todo()
-    if vim.api.nvim_win_is_valid(M.state.floating.win) then -- if visible
-        vim.api.nvim_win_hide(M.state.floating.win) -- hide
-    else
-        M.state.floating = M.toggle_float({
-            x = 0.8,
-            y = 0.8,
-            buf = M.state.floating.buf,
-        }) -- tells it to use the same buffer
-        if vim.bo[M.state.floating.buf].buftype ~= "terminal" then -- if buftype isn't terminal
-            vim.cmd.terminal("bash -c " .. todoshFileExec .. " " .. todoshFileConf)
-        end
-    end
-    vim.cmd("startinsert")
-end
 
 M.setup = function()
     vim.api.nvim_create_user_command("Todosh", M.toggle_todo, {})

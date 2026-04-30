@@ -1,3 +1,4 @@
+-- NOTE: currently not used, I think
 -- The GIGA_CHAD route:
 local todoConf = [[
 # === EDIT FILE LOCATIONS BELOW ===
