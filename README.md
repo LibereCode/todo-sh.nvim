@@ -3,6 +3,10 @@
 A nvim-lua wrapper that uses `todo.sh`, to create a _'interactive'_ session,
 and store the data somewhere in your _nvim_ files.
 
+> [!NOTE]
+> The script `todo.sh` is not created by me. Checkout the original
+> repo called: [todo.txt-cli](https://github.com/todotxt/todo.txt-cli)
+
 ## DEPENDENCIES
 
 - todo.sh
