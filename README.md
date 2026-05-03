@@ -43,5 +43,6 @@ vim.pack.add({
 local todo, map = require('todo-sh'), vim.keymap.set
 todo.setup() -- loads default config
 -- OR --
-map({'n', 't'}, todo.toggle_todo, {silent = true, desc = "todo.sh plugin?"})
+map({'n', 't'}, '<leader>td', todo.toggle_todo,
+    {silent = true, desc = "todo.sh plugin?"})
 ```
